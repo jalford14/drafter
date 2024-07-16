@@ -2,21 +2,19 @@ defmodule Drafter.Golf.Tournament do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @fields [:name]
-
-  embedded_schema do
+  schema "tournaments" do
     field(:name, :string)
+    # has_many(:users, Drafter.Golf.User)
+    # has_many(:players, Drafter.Golf.Player)
+
+    timestamps()
   end
 
   @doc false
-  def changeset(attrs) do
-    %__MODULE__{}
-    |> cast(attrs, @fields)
+  def changeset(tournament, attrs) do
+    tournament
+    |> cast(attrs, [:name])
     |> validate_required(:name)
-  end
-
-  def from_params(params) do
-    clean_params = changeset(params).changes()
-    struct(__MODULE__, clean_params)
+    |> unique_constraint(:name)
   end
 end

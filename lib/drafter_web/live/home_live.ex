@@ -13,9 +13,9 @@ defmodule DrafterWeb.HomeLive do
     name = "Jimmy's tourney"
     socket = put_flash(socket, :info, "New draft!")
     case Golf.create_tournament(%{name: name}) do
-      {:ok, _tournament} ->
+      {:ok, tournament} ->
         socket = put_flash(socket, :info, "New draft for #{name} started!")
-            {:noreply, push_redirect(socket, to: Routes.tournaments_path(socket, :index))}
+            {:noreply, redirect(socket, to: "/tournaments/#{tournament.id}")}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
