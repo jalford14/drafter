@@ -12,31 +12,16 @@ defmodule Drafter.Golf do
 
   @doc """
   Gets a single tournament.
-
-  Raises `Ecto.NoResultsError` if the Tournament does not exist.
-
-  ## Examples
-
-      iex> get_tournament!(123)
-      %Tournament{}
-
-      iex> get_tournament!(456)
-      ** (Ecto.NoResultsError)
-
   """
   def get_tournament!(id), do: Repo.get!(Tournament, id)
 
   @doc """
+  Gets a tournament by passing in a name.
+  """
+  def get_tournament_by_name(name), do: Repo.get_by(Tournament, name: name)
+
+  @doc """
   Creates a tournament.
-
-  ## Examples
-
-      iex> create_tournament(%{field: value})
-      {:ok, %Tournament{}}
-
-      iex> create_tournament(%{field: invalid_value})
-      {:error, %Ecto.Changeset{}}
-
   """
   def create_tournament(attrs \\ %{}) do
     %Tournament{}

@@ -11,14 +11,26 @@ defmodule DrafterWeb.HomeLive do
   @impl true
   def handle_event("new_draft", _params, socket) do
     name = "Jimmy's tourney"
-    socket = put_flash(socket, :info, "New draft!")
     case Golf.create_tournament(%{name: name}) do
       {:ok, tournament} ->
+        IO.puts "made thing"
         socket = put_flash(socket, :info, "New draft for #{name} started!")
-            {:noreply, redirect(socket, to: "/tournaments/#{tournament.id}")}
+        {:noreply, redirect(socket, to: "/tournaments/#{tournament.id}")}
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign(socket, :changeset, changeset)}
+        case changeset.errors do
+          [name: {"has already been taken", _}] ->
+            tournament = Golf.get_tournament_by_name(name)
+            socket = 
+              socket
+              |> put_flash(:info, "Tournament already created.")
+            
+            {:noreply, redirect(socket, to: "/tournaments/#{tournament.id}")}
+
+          _ ->
+            socket = put_flash(socket, :error, "Something went wrong")
+            {:noreply, assign(socket, :changeset, changeset)}
+        end
     end
   end
 end

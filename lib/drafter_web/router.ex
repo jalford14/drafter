@@ -18,7 +18,7 @@ defmodule DrafterWeb.Router do
     pipe_through :browser
 
     live("/", HomeLive)
-    live("/tournaments/:tournament_id", TournamentLive)
+    live("/tournaments/:id", TournamentLive, :show)
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
