@@ -4,20 +4,19 @@
 
 <br />
 
-<h2 class="text-center text-xl"><%= @name %></h2>
+<h2 class="text-center text-xl"><%= @tournament.name %></h2>
 
 <h2 class="text-center text-xl">Add User</h2>
-<.form
-  for={@form}
-  phx-submit="create_user"
->
+<.form for={@form} phx-submit="create_user">
+  <input type="hidden" name="user[tournament_id]" value={@tournament.id} />
   <.input type="text" field={@form[:name]} label="User name" />
+  <button>Save</button>
 </.form>
 
 <br />
 
 <h2 class="text-center text-xl">Users</h2>
 
-<%= for user <- @users do %>
+<%= for user <- @tournament.users do %>
   <h1><%= user.name %></h1>
 <% end %>

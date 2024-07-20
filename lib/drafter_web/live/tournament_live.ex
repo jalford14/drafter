@@ -7,17 +7,18 @@ defmodule DrafterWeb.TournamentLive do
   @impl true
   def mount(params, _session, socket) do
     tournament = Golf.get_tournament!(params["id"])
-    users = tournament.users
     form = %User{}
             |> Ecto.Changeset.change()
             |> to_form()
 
-    {:ok, assign(socket, users: users, name: tournament.name, form: form)}
+    {:ok, assign(socket, tournament: tournament, form: form)}
   end
 
   @impl true
   def handle_event("create_user", params, socket) do
-    Golf.create_user(params)
+    IO.inspect(params)
+    IO.inspect(socket)
+    Golf.create_user(params["user"])
     {:noreply, socket}
   end
 end
