@@ -8,12 +8,15 @@ defmodule Drafter.Golf do
 
   alias Drafter.Golf.Tournament
   alias Drafter.Golf.User
-  alias Drafter.Golf.Player
+  # alias Drafter.Golf.Player
 
   @doc """
-  Gets a single tournament.
+  Gets a single tournament and preloads users.
   """
-  def get_tournament!(id), do: Repo.get!(Tournament, id)
+  def get_tournament!(id) do
+    Repo.get!(Tournament, id)
+    |> Repo.preload(:users)
+  end
 
   @doc """
   Gets a tournament by passing in a name.
@@ -26,6 +29,15 @@ defmodule Drafter.Golf do
   def create_tournament(attrs \\ %{}) do
     %Tournament{}
     |> Tournament.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Creates a user.
+  """
+  def create_user(attrs \\ %{}) do
+    %User{}
+    |> User.changeset(attrs)
     |> Repo.insert()
   end
 end

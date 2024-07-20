@@ -11,7 +11,13 @@
   for={@form}
   phx-submit="create_user"
 >
-  <.input field={@form[:name]} />
+  <.input type="text" field={@form[:name]} label="User name" />
 </.form>
 
 <br />
+
+<h2 class="text-center text-xl">Users</h2>
+
+<%= for user <- @users do %>
+  <h1><%= user.name %></h1>
+<% end %>
