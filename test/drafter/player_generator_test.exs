@@ -1,9 +1,8 @@
-defmodule Drafter.Golf.PlayerGenerator do
+defmodule Drafter.Golf.PlayerGeneratorTest do
   use ExUnit.Case
   alias Drafter.Golf.PlayerGenerator
-  @path "players.csv"
 
   test "creates players using a CSV" do
-    assert(PlayerGenerator.generate(path) == :ok)
+    assert(PlayerGenerator.generate() == :ok)
   end 
 end
