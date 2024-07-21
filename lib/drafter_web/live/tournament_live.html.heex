@@ -30,7 +30,7 @@
       </tr>
     </thead>
     <tbody>
-        <%= for user <- @tournament.users do %>
+        <%= for user <- @users do %>
           <tr class="odd:bg-white odd:dark:bg-gray-25 even:bg-gray-50 even:dark:bg-gray-200 border-b dark:border-gray-200">
               <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-900">
                   <%= user.name %>
