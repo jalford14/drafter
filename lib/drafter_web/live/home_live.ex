@@ -13,7 +13,6 @@ defmodule DrafterWeb.HomeLive do
     name = "Jimmy's tourney"
     case Golf.create_tournament(%{name: name}) do
       {:ok, tournament} ->
-        IO.puts "made thing"
         socket = put_flash(socket, :info, "New draft for #{name} started!")
         {:noreply, redirect(socket, to: "/tournaments/#{tournament.id}")}
 
