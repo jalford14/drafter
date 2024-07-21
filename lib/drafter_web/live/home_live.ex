@@ -10,7 +10,7 @@ defmodule DrafterWeb.HomeLive do
 
   @impl true
   def handle_event("new_draft", _params, socket) do
-    name = "Jimmy's tourney"
+    name = "The Open"
     case Golf.create_tournament(%{name: name}) do
       {:ok, tournament} ->
         socket = put_flash(socket, :info, "New draft for #{name} started!")
