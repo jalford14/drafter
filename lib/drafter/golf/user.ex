@@ -6,7 +6,7 @@ defmodule Drafter.Golf.User do
     field(:name, :string)
     field(:color_hex, :string)
     belongs_to(:tournament, Drafter.Golf.Tournament)
-    # has_many(:players, Drafter.Golf.Player)
+    has_many(:players, Drafter.Golf.Player)
 
     timestamps()
   end

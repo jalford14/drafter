@@ -1,13 +1,16 @@
 defmodule Drafter.Golf.PlayerGenerator do
-  @path "players.csv"
+  alias Drafter.Golf
 
-  def generate do
-    @path
+  def generate(path, tournament_id) do
+    path
     |> File.stream!(read_ahead: 100_000)
     |> CsvParser.parse_stream()
     |> Stream.map(fn [player, odds] ->
       %{name: :binary.copy(player), odds: :binary.copy(odds)}
     end)
-    |> Stream.run()
+    |> Enum.each(fn attrs ->
+        Map.merge(attrs, %{tournament_id: tournament_id})
+        |> Golf.create_player()
+      end)
   end
 end
