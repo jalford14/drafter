@@ -15,7 +15,7 @@ defmodule Drafter.Golf do
   """
   def get_tournament!(id) do
     Repo.get!(Tournament, id)
-    |> Repo.preload(:users)
+    |> Repo.preload([:users, :players])
   end
 
   @doc """

@@ -11,7 +11,12 @@ defmodule DrafterWeb.TournamentLive do
             |> Ecto.Changeset.change()
             |> to_form()
 
-    {:ok, assign(socket, tournament: tournament, users: tournament.users, form: form)}
+    {:ok, assign(
+            socket,
+            tournament: tournament,
+            users: tournament.users,
+            form: form
+          )}
   end
 
   @impl true

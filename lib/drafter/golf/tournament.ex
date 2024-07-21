@@ -5,7 +5,7 @@ defmodule Drafter.Golf.Tournament do
   schema "tournaments" do
     field(:name, :string)
     has_many(:users, Drafter.Golf.User)
-    # has_many(:players, Drafter.Golf.Player)
+    has_many(:players, Drafter.Golf.Player)
 
     timestamps()
   end
