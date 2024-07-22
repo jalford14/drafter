@@ -21,7 +21,7 @@ defmodule DrafterWeb.TournamentLive do
 
   @impl true
   def handle_event("create_user", params, socket) do
-    user = Golf.create_user(params["user"])
+    {:ok, user} = Golf.create_user(params["user"])
     {:noreply, assign(socket, users: socket.assigns.tournament.users ++ [user])}
   end
 end

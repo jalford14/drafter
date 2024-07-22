@@ -10,6 +10,8 @@ defmodule Drafter.Golf do
   alias Drafter.Golf.User
   alias Drafter.Golf.Player
 
+  @total_scores 4
+
   @doc """
   Gets a single tournament and preloads users.
   """
@@ -33,12 +35,41 @@ defmodule Drafter.Golf do
   end
 
   @doc """
+  Gets a single tournament and preloads players.
+  """
+  def get_user!(id) do
+    Repo.get!(User, id)
+    |> Repo.preload(:players)
+  end
+
+  @doc """
   Creates a user.
   """
   def create_user(attrs \\ %{}) do
     %User{}
     |> User.changeset(attrs)
     |> Repo.insert()
+  end
+
+  @doc """
+  Take the players scores from each day and aggregate them together to get
+  each days totals.
+  """
+  def aggreagate_user_scores(user_id) do
+    query = from p in "players",
+            where: p.user_id == ^user_id,
+            select: p.score
+
+    scores = Repo.all(query)
+    |> Enum.zip()
+    |> Enum.map(fn scores -> Tuple.sum(scores) end)
+
+    # Add extra padding for blank scores. This is to make sure
+    # that table cells are all present for the html
+    case @total_scores - Enum.count(scores) do
+      0 -> scores
+      blanks -> scores ++ List.duplicate([], blanks)
+    end
   end
 
   @doc """

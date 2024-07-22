@@ -34,18 +34,11 @@
           <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-900">
             <%= user.name %>
           </th>
-          <td class="px-6 py-4">
-            40
-          </td>
-          <td class="px-6 py-4">
-            15
-          </td>
-          <td class="px-6 py-4">
-            3
-          </td>
-          <td class="px-6 py-4">
-            5
-          </td>
+          <%= for score <- Drafter.Golf.aggreagate_user_scores(user.id) do %>
+            <td class="px-6 py-4">
+              <%= score %>
+            </td>
+          <% end %>
         </tr>
       <% end %>
     </tbody>
