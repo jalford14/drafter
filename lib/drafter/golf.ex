@@ -64,7 +64,7 @@ defmodule Drafter.Golf do
     |> Enum.zip()
     |> Enum.map(fn scores -> Tuple.sum(scores) end)
 
-    # Add extra padding for blank scores. This is to make sure
+    # Add arrays in for nil scores. This is to make sure
     # that table cells are all present for the html
     case @total_scores - Enum.count(scores) do
       0 -> scores
