@@ -64,7 +64,7 @@ defmodule Drafter.Golf do
     |> Enum.zip()
     |> Enum.map(fn scores -> Tuple.sum(scores) end)
 
-    # Add extra padding for blank scores. This is to make sure
+    # Add arrays in for nil scores. This is to make sure
     # that table cells are all present for the html
     case @total_scores - Enum.count(scores) do
       0 -> scores
@@ -73,11 +73,31 @@ defmodule Drafter.Golf do
   end
 
   @doc """
+<<<<<<< Updated upstream
+=======
+  Gets a single player and preloads users.
+  """
+  def get_player!(id) do
+    Repo.get!(Player, id)
+  end
+
+  @doc """
+>>>>>>> Stashed changes
   Creates a player.
   """
   def create_player(attrs \\ %{}) do
     %Player{}
     |> Player.changeset(attrs)
     |> Repo.insert()
+  end
+
+
+  @doc """
+  Updates a player.
+  """
+  def update_player!(attrs \\ %{}) do
+    %Player{}
+    |> Player.changeset(attrs)
+    |> Repo.update!()
   end
 end

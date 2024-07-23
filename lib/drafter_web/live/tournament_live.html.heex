@@ -65,17 +65,43 @@
         <th scope="col" class="px-6 py-3">
           ODDS
         </th>
+        <th scope="col" class="px-6 py-3">
+        </th>
       </tr>
     </thead>
     <tbody>
       <%= for player <- @tournament.players do %>
-        <tr class="odd:bg-white odd:dark:bg-gray-25 even:bg-gray-50 even:dark:bg-gray-200 border-b dark:border-gray-200">
+        <tr class="group bg-white dark:bg-gray-25 border-b dark:border-gray-200">
           <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-900">
             <%= player.name %>
           </th>
           <td class="px-6 py-4">
             <%= player.odds %>
           </td>
+          <td class="px-6 py-4 opacity-0 group-hover:opacity-100">
+            <button phx-click="start_draft" phx-value-player-id={player.id} class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 hover:from-pink-500 hover:to-orange-400 hover:text-white dark:text-black focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
+              <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-white rounded-md hover:bg-opacity-0">
+                Draft
+              </span>
+            </button>
+          </td>
+          <%= if @selected_player == to_string(player.id) do %>
+            <tr class="group-hover:opacity-100 bg-gray-50 dark:bg-gray-200 border-b dark:border-gray-200">
+              <td colspan="3">
+                <div id={"users-for-player-#{player.id}"} class="grid grid-cols-3 gap-6 p-3">
+                  <%= for user <- @draftable_users do %>
+                    <button
+                      phx-click="draft_player"
+                      phx-value-user-id={user.id}
+                      type="button"
+                      class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                        <%= user.name %>
+                    </button>
+                  <% end %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
         </tr>
       <% end %>
     </tbody>
