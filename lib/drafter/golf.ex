@@ -61,6 +61,7 @@ defmodule Drafter.Golf do
             select: p.score
 
     scores = Repo.all(query)
+    |> Enum.reject(fn score -> score == [] end)
     |> Enum.zip()
     |> Enum.map(fn scores -> Tuple.sum(scores) end)
 
@@ -87,7 +88,6 @@ defmodule Drafter.Golf do
     |> Player.changeset(attrs)
     |> Repo.insert()
   end
-
 
   @doc """
   Updates a player.
