@@ -93,4 +93,15 @@ defmodule Drafter.Golf do
   Updates a player.
   """
   def update_player!(changeset), do: Repo.update!(changeset)
+
+  @doc """
+  Get all undrafted players.
+  """
+  def get_undrafted_players(tournament_id) do
+    query = from p in Player,
+            where: is_nil(p.user_id)
+                   and p.tournament_id == ^tournament_id
+
+    Repo.all(query)
+  end
 end

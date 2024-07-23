@@ -7,6 +7,7 @@ defmodule DrafterWeb.TournamentLive do
   @impl true
   def mount(params, _session, socket) do
     tournament = Golf.get_tournament!(params["id"])
+    undrafted_players = Golf.get_undrafted_players(tournament.id)
     form = %User{}
             |> Ecto.Changeset.change()
             |> to_form()
@@ -15,7 +16,7 @@ defmodule DrafterWeb.TournamentLive do
             socket,
             tournament: tournament,
             users: tournament.users,
-            players: tournament.players,
+            players: undrafted_players,
             form: form,
             selected_user: nil,
             selected_player: nil,
