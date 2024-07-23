@@ -17,7 +17,9 @@ defmodule DrafterWeb.TournamentLive do
             users: tournament.users,
             players: tournament.players,
             form: form,
-            selected_player: nil
+            selected_user: nil,
+            selected_player: nil,
+            players_for_user: nil
           )}
   end
 
@@ -44,5 +46,11 @@ defmodule DrafterWeb.TournamentLive do
     leftover_players = socket.assigns.players -- [player]
 
     {:noreply, assign(socket, players: leftover_players, selected_player: nil, draftable_users: nil)}
+  end
+
+  @impl true
+  def handle_event("toggle_user_players", %{"user-id" => user_id}, socket) do
+    user = Golf.get_user!(user_id)
+    {:noreply, assign(socket, selected_user: user_id, players_for_user: user.players)}
   end
 end

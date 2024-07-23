@@ -30,16 +30,34 @@
     </thead>
     <tbody>
       <%= for user <- @users do %>
-        <tr class="odd:bg-white odd:dark:bg-gray-25 even:bg-gray-50 even:dark:bg-gray-200 border-b dark:border-gray-200">
+        <tr
+          phx-click="toggle_user_players"
+          phx-value-user-id={user.id}
+          class="bg-white dark:bg-gray-25 border-b dark:border-gray-200 hover:bg-gray-100 cursor-pointer"
+        >
           <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-900">
             <%= user.name %>
           </th>
           <%= for score <- Drafter.Golf.aggreagate_user_scores(user.id) do %>
-            <td class="px-6 py-4">
+            <td class="px-6 py-4 border-black">
               <%= score %>
             </td>
           <% end %>
         </tr>
+        <%= if @selected_user == to_string(user.id) do %>
+          <%= for player <- @players_for_user do %>
+            <tr class="bg-gray-50 border-b dark:border-gray-200 pl-2">
+              <th scope="row" class="pl-10 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-900">
+                <%= player.name %>
+              </th>
+              <%= for score <- player.score do %>
+                <td class="px-6 py-4 border-black">
+                  <%= score %>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+        <% end %>
       <% end %>
     </tbody>
   </table>
@@ -94,8 +112,9 @@
                       phx-click="draft_player"
                       phx-value-user-id={user.id}
                       type="button"
-                      class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
-                        <%= user.name %>
+                      class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                    >
+                      <%= user.name %>
                     </button>
                   <% end %>
                 </div>
