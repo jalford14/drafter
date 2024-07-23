@@ -45,16 +45,24 @@
           <% end %>
         </tr>
         <%= if @selected_user == to_string(user.id) do %>
-          <%= for player <- @players_for_user do %>
+          <%= if Enum.count(@players_for_user) > 0 do %>
+            <%= for player <- @players_for_user do %>
+              <tr class="bg-gray-50 border-b dark:border-gray-200 pl-2">
+                <th scope="row" class="pl-10 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-900">
+                  <%= player.name %>
+                </th>
+                <%= for score <- player.score do %>
+                  <td class="px-6 py-4 border-black">
+                    <%= score %>
+                  </td>
+                <% end %>
+              </tr>
+            <% end %>
+          <% else %>
             <tr class="bg-gray-50 border-b dark:border-gray-200 pl-2">
-              <th scope="row" class="pl-10 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-900">
-                <%= player.name %>
+              <th scope="row" colspan="5" class="pl-10 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-900 text-center">
+                No players drafted yet!
               </th>
-              <%= for score <- player.score do %>
-                <td class="px-6 py-4 border-black">
-                  <%= score %>
-                </td>
-              <% end %>
             </tr>
           <% end %>
         <% end %>
