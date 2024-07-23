@@ -14,6 +14,7 @@ defmodule Drafter.Golf.Player do
 
   @doc false
   def changeset(player, attrs) do
+    IO.inspect(attrs, label: "attrsssssssss")
     player
     |> cast(attrs, [:name, :score, :odds, :tournament_id, :user_id])
     |> validate_required([:name, :tournament_id])

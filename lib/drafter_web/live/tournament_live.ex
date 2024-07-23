@@ -15,6 +15,7 @@ defmodule DrafterWeb.TournamentLive do
             socket,
             tournament: tournament,
             users: tournament.users,
+            players: tournament.players,
             form: form,
             selected_player: nil
           )}
@@ -37,8 +38,11 @@ defmodule DrafterWeb.TournamentLive do
     player = socket.assigns.selected_player
     |> Golf.get_player!()
 
-    _changeset = Golf.Player.changeset(player, %{user_id: user_id})
+    Golf.Player.changeset(player, %{user_id: user_id})
     |> Golf.update_player!()
-    {:noreply, assign(socket, selected_player: nil, draftable_users: nil)}
+
+    leftover_players = socket.assigns.players -- [player]
+
+    {:noreply, assign(socket, players: leftover_players, selected_player: nil, draftable_users: nil)}
   end
 end

@@ -73,16 +73,13 @@ defmodule Drafter.Golf do
   end
 
   @doc """
-<<<<<<< Updated upstream
-=======
   Gets a single player and preloads users.
   """
   def get_player!(id) do
-    Repo.get!(Player, id)
+    Repo.get(Player, id)
   end
 
   @doc """
->>>>>>> Stashed changes
   Creates a player.
   """
   def create_player(attrs \\ %{}) do
@@ -95,9 +92,5 @@ defmodule Drafter.Golf do
   @doc """
   Updates a player.
   """
-  def update_player!(attrs \\ %{}) do
-    %Player{}
-    |> Player.changeset(attrs)
-    |> Repo.update!()
-  end
+  def update_player!(changeset), do: Repo.update!(changeset)
 end
