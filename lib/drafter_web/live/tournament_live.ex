@@ -51,6 +51,12 @@ defmodule DrafterWeb.TournamentLive do
   @impl true
   def handle_event("toggle_user_players", %{"user-id" => user_id}, socket) do
     user = Golf.get_user!(user_id)
+    user_id =
+      case user_id == socket.assigns.selected_user do
+        true -> nil
+        false -> user_id
+      end
+
     {:noreply, assign(socket, selected_user: user_id, players_for_user: user.players)}
   end
 end
