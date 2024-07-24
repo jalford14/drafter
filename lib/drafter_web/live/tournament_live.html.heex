@@ -44,7 +44,7 @@
             </td>
           <% end %>
         </tr>
-        <%= if @selected_user == to_string(user.id) do %>
+        <%= if @selected_user_id == to_string(user.id) do %>
           <%= if Enum.count(@players_for_user) > 0 do %>
             <%= for player <- @players_for_user do %>
               <tr class="bg-gray-50 border-b dark:border-gray-200 pl-2">
@@ -53,14 +53,14 @@
                 </th>
                 <%= for {score, index} <- Enum.with_index(player.score) do %>
                   <td class="px-6 py-4 border-black">
-                    <.form for={@player_form}>
-                      <.input 
-                        phx-change="update_score"
-                        phx-value-player-id={player.id}
-                        phx-debounce="300"
-                        name="player_score"
-                        type="text"
+                    <.form for={%{}} phx-change="update_score">
+                      <input type="hidden" name="player_id" value={player.id} />
+                      <input type="hidden" name="score_index" value={index} />
+                      <input 
                         class="text-sm text-center bg-gray-50 w-14 h-10 border-t-0 border-x-0 border-b-1 focus:border-b-2 focus:border-black focus:ring-0 focus:ring-gray-50"
+                        phx-debounce="300"
+                        name={"new_score"}
+                        type="text"
                         value={score}
                       />
                     </.form>
@@ -121,7 +121,7 @@
               </span>
             </button>
           </td>
-          <%= if @selected_player == to_string(player.id) do %>
+          <%= if @selected_player_id == to_string(player.id) do %>
             <tr class="group-hover:opacity-100 bg-gray-50 dark:bg-gray-200 border-b dark:border-gray-200">
               <td colspan="3">
                 <div id={"users-for-player-#{player.id}"} class="grid grid-cols-3 gap-6 p-3">

@@ -24,8 +24,8 @@ defmodule DrafterWeb.TournamentLive do
             players: undrafted_players,
             form: form,
             player_form: player_form,
-            selected_user: nil,
-            selected_player: nil,
+            selected_user_id: nil,
+            selected_player_id: nil,
             players_for_user: nil
           )}
   end
@@ -39,12 +39,12 @@ defmodule DrafterWeb.TournamentLive do
   @impl true
   def handle_event("start_draft", %{"player-id" => player_id}, socket) do
     IO.inspect(player_id)
-    {:noreply, assign(socket, selected_player: player_id, draftable_users: socket.assigns.users)}
+    {:noreply, assign(socket, selected_player_id: player_id, draftable_users: socket.assigns.users)}
   end
 
   @impl true
   def handle_event("draft_player", %{"user-id" => user_id}, socket) do
-    player = socket.assigns.selected_player
+    player = socket.assigns.selected_player_id
     |> Golf.get_player!()
 
     Golf.Player.changeset(player, %{user_id: user_id})
@@ -52,24 +52,39 @@ defmodule DrafterWeb.TournamentLive do
 
     leftover_players = socket.assigns.players -- [player]
 
-    {:noreply, assign(socket, players: leftover_players, selected_player: nil, draftable_users: nil)}
+    {:noreply, assign(socket, players: leftover_players, selected_player_id: nil, draftable_users: nil)}
   end
 
   @impl true
   def handle_event("toggle_user_players", %{"user-id" => user_id}, socket) do
     user = Golf.get_user!(user_id)
     user_id =
-      case user_id == socket.assigns.selected_user do
+      case user_id == socket.assigns.selected_user_id do
         true -> nil
         false -> user_id
       end
 
-    {:noreply, assign(socket, selected_user: user_id, players_for_user: user.players)}
+    {:noreply, assign(socket, selected_user_id: user_id, players_for_user: user.players)}
   end
 
   @impl true
-  def handle_event("update_score", params, socket) do
-    IO.inspect(params, label: "PARAMS")
+  def handle_event("update_score", %{"new_score" => ""}, socket), do:
+    {:noreply, socket}
+
+  @impl true
+  def handle_event(
+    "update_score",
+    %{"player_id" => player_id, "score_index" => index, "new_score" => score},
+    socket
+  ) do
+    player = Golf.get_player!(player_id)
+    updated_score = 
+      player.score
+      |> List.replace_at(String.to_integer(index), String.to_integer(score))
+
+    Golf.Player.changeset(player, %{score: updated_score})
+    |> Golf.update_player!()
+
     {:noreply, socket}
   end
 end
