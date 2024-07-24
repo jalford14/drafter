@@ -15,6 +15,8 @@ module.exports = {
     extend: {
       colors: {
         brand: "#FD4F00",
+        mastersGreen: "#00714f",
+        scorecard: "#f0e8dd",
       }
     },
   },

@@ -1,29 +1,27 @@
-<h1 class="text-center text-xl font-bold">COOL FRIENDS GOLF DRAFTER</h1>
-
 <br />
 
-<h2 class="text-left text-xl font-semibold"><%= @tournament.name %></h2>
+<h2 class="text-center text-5xl text-mastersGreen font-extrabold font-sans tracking-tighter"><%= @tournament.name %></h2>
 
 <br />
 
 <h2 class="my-5 text-left text-l font-semibold">Users</h2>
-<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-  <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-100 dark:text-gray-400">
-      <tr>
-        <th scope="col" class="px-6 py-3">
+<div class="bg-scorecard relative overflow-x-auto shadow-md border-t border-mastersGreen">
+  <table class="mt-2 w-full text-sm text-left text-mastersGreen rtl:text-right text-gray-500 border-green">
+    <thead class="text-xs uppercase bg-scorecard border-mastersGreen border">
+      <tr class="border-green">
+        <th scope="col" class="px-6 py-3 border-r border-mastersGreen font-extrabold tracking-tighter">
           NAME
         </th>
-        <th scope="col" class="px-6 py-3">
+        <th scope="col" class="px-6 py-3 border-r border-mastersGreen font-extrabold tracking-tighter">
           DAY 1
         </th>
-        <th scope="col" class="px-6 py-3">
+        <th scope="col" class="px-6 py-3 border-r border-mastersGreen font-extrabold tracking-tighter">
           DAY 2
         </th>
-        <th scope="col" class="px-6 py-3">
+        <th scope="col" class="px-6 py-3 border-r border-mastersGreen font-extrabold tracking-tighter">
           DAY 3
         </th>
-        <th scope="col" class="px-6 py-3">
+        <th scope="col" class="px-6 py-3 border-r border-mastersGreen font-extrabold tracking-tighter">
           DAY 4
         </th>
       </tr>
@@ -33,13 +31,13 @@
         <tr
           phx-click="toggle_user_players"
           phx-value-user-id={user.id}
-          class="bg-white dark:bg-gray-25 border-b dark:border-gray-200 hover:bg-gray-100 cursor-pointer"
+          class="bg-scorecard border-mastersGreen border hover:bg-gray-100 cursor-pointer"
         >
-          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-900">
+          <th scope="row" class="px-6 py-4 font-extrabold text-mastersGreen uppercase whitespace-nowrap border-r border-mastersGreen tracking-tighter">
             <%= user.name %>
           </th>
           <%= for score <- Drafter.Golf.aggreagate_user_scores(user.id) do %>
-            <td class="px-6 py-4 border-black">
+            <td class="px-6 py-4 border-r border-mastersGreen">
               <%= score %>
             </td>
           <% end %>
@@ -47,8 +45,8 @@
         <%= if @selected_user_id == to_string(user.id) do %>
           <%= if Enum.count(@players_for_user) > 0 do %>
             <%= for player <- @players_for_user do %>
-              <tr class="bg-gray-50 border-b dark:border-gray-200 pl-2">
-                <th scope="row" class="pl-10 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-900">
+              <tr class="bg-gray-50 border-b pl-2">
+                <th scope="row" class="pl-10 py-4 font-medium text-gray-900 whitespace-nowrap">
                   <%= player.name %>
                 </th>
                 <%= for {score, index} <- Enum.with_index(player.score) do %>
@@ -69,8 +67,8 @@
               </tr>
             <% end %>
           <% else %>
-            <tr class="bg-gray-50 border-b dark:border-gray-200 pl-2">
-              <th scope="row" colspan="5" class="pl-10 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-900 text-center">
+            <tr class="bg-gray-50 border-b pl-2">
+              <th scope="row" colspan="5" class="pl-10 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
                 No players drafted yet!
               </th>
             </tr>
@@ -87,13 +85,13 @@
 <.form for={@form} phx-submit="create_user">
   <input type="hidden" name="user[tournament_id]" value={@tournament.id} />
   <.input type="text" field={@form[:name]} label="User name" />
-  <button type="button" class="mt-3 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Save</button>
+  <button type="button" class="mt-3 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium">Save</button>
 </.form>
 
 <h2 class="my-5 text-left text-l font-semibold">Players</h2>
-<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-  <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-100 dark:text-gray-400">
+<div class="relative overflow-x-auto shadow-md">
+  <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
       <tr>
         <th scope="col" class="px-6 py-3">
           NAME
@@ -107,22 +105,22 @@
     </thead>
     <tbody>
       <%= for player <- @players do %>
-        <tr class="group bg-white dark:bg-gray-25 border-b dark:border-gray-200">
-          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-900">
+        <tr class="group bg-scorecard border-b">
+          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
             <%= player.name %>
           </th>
           <td class="px-6 py-4">
             <%= player.odds %>
           </td>
           <td class="px-6 py-4 opacity-0 group-hover:opacity-100">
-            <button phx-click="start_draft" phx-value-player-id={player.id} class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 hover:from-pink-500 hover:to-orange-400 hover:text-white dark:text-black focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
-              <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-white rounded-md hover:bg-opacity-0">
+            <button phx-click="start_draft" phx-value-player-id={player.id} class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 group bg-gradient-to-br from-pink-500 to-orange-400 hover:from-pink-500 hover:to-orange-400 hover:text-white focus:ring-4 focus:outline-none focus:ring-pink-200">
+              <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-scorecard hover:bg-opacity-0">
                 Draft
               </span>
             </button>
           </td>
           <%= if @selected_player_id == to_string(player.id) do %>
-            <tr class="group-hover:opacity-100 bg-gray-50 dark:bg-gray-200 border-b dark:border-gray-200">
+            <tr class="group-hover:opacity-100 bg-gray-50 border-b">
               <td colspan="3">
                 <div id={"users-for-player-#{player.id}"} class="grid grid-cols-3 gap-6 p-3">
                   <%= for user <- @draftable_users do %>
@@ -130,7 +128,7 @@
                       phx-click="draft_player"
                       phx-value-user-id={user.id}
                       type="button"
-                      class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                      class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium text-sm px-5 py-2.5 text-center me-2 mb-2"
                     >
                       <%= user.name %>
                     </button>
@@ -144,5 +142,3 @@
     </tbody>
   </table>
 </div>
-
-<br />
