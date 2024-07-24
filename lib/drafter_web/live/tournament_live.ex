@@ -2,7 +2,7 @@ defmodule DrafterWeb.TournamentLive do
   use DrafterWeb, :live_view
 
   alias Drafter.Golf
-  alias Drafter.Golf.User
+  alias Drafter.Golf.{User, Player}
 
   @impl true
   def mount(params, _session, socket) do
@@ -12,12 +12,18 @@ defmodule DrafterWeb.TournamentLive do
             |> Ecto.Changeset.change()
             |> to_form()
 
+    player_form = %Player{}
+            |> Ecto.Changeset.change()
+            |> to_form()
+            |> IO.inspect(label: "FORM")
+
     {:ok, assign(
             socket,
             tournament: tournament,
             users: tournament.users,
             players: undrafted_players,
             form: form,
+            player_form: player_form,
             selected_user: nil,
             selected_player: nil,
             players_for_user: nil
@@ -59,5 +65,11 @@ defmodule DrafterWeb.TournamentLive do
       end
 
     {:noreply, assign(socket, selected_user: user_id, players_for_user: user.players)}
+  end
+
+  @impl true
+  def handle_event("update_score", params, socket) do
+    IO.inspect(params, label: "PARAMS")
+    {:noreply, socket}
   end
 end

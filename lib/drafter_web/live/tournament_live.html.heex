@@ -51,9 +51,19 @@
                 <th scope="row" class="pl-10 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-900">
                   <%= player.name %>
                 </th>
-                <%= for score <- player.score do %>
+                <%= for {score, index} <- Enum.with_index(player.score) do %>
                   <td class="px-6 py-4 border-black">
-                    <%= score %>
+                    <.form for={@player_form}>
+                      <.input 
+                        phx-change="update_score"
+                        phx-value-player-id={player.id}
+                        phx-debounce="300"
+                        name="player_score"
+                        type="text"
+                        class="text-sm text-center bg-gray-50 w-14 h-10 border-t-0 border-x-0 border-b-1 focus:border-b-2 focus:border-black focus:ring-0 focus:ring-gray-50"
+                        value={score}
+                      />
+                    </.form>
                   </td>
                 <% end %>
               </tr>
