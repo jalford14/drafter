@@ -1,10 +1,15 @@
 <br />
 
-<h2 class="text-center text-5xl text-mastersGreen font-extrabold font-sans tracking-tighter"><%= @tournament.name %></h2>
+<h2 class="text-center text-7xl text-mastersGreen font-extrabold font-sans tracking-tighter"><%= @tournament.name %></h2>
+
+<.form for={@form} phx-submit="create_user" class="whitespace-nowrap flex items-end h-16">
+  <input type="hidden" name="user[tournament_id]" value={@tournament.id} />
+  <input type="text" name="user[name]" label="User name" class="p-0 pl-1 w-72 border-x-0 border-t-0 mt-4 mr-16 bg-scorecard text-mastersGreen whitespace-nowrap border-mastersGreen tracking-tighter focus:ring-0 focus:border-b-mastersGreen focus:ring-gray-50" placeholder="Enter name" autofocus autocomplete="off"/>
+</.form>
 
 <br />
 
-<div class="bg-scorecard relative overflow-x-auto border-t border-mastersGreen">
+<div class="bg-scorecard relative overflow-x-auto shadow-md">
   <table class="mt-2 w-full text-sm text-left text-mastersGreen rtl:text-right text-gray-500 border-green">
     <thead class="text-xs uppercase bg-scorecard border-mastersGreen border">
       <tr class="font-extrabold tracking-tighter text-center">
@@ -77,12 +82,6 @@
     </tbody>
   </table>
 </div>
-
-<.form for={@form} phx-submit="create_user" class="whitespace-nowrap flex items-end h-16">
-  <input type="hidden" name="user[tournament_id]" value={@tournament.id} />
-  <label class="text-mastersGreen tracking-tighter mr-2">Player Signature</label>
-  <input type="text" name="user[name]" label="User name" class="w-72 border-x-0 border-t-0 mt-4 mr-16 text-l bg-scorecard font-bold text-mastersGreen uppercase whitespace-nowrap border-mastersGreen tracking-tighter focus:ring-0 focus:border-b-mastersGreen focus:ring-gray-50" />
-</.form>
 
 <br />
 
