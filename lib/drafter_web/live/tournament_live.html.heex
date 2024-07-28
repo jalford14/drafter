@@ -10,7 +10,7 @@
 <br />
 
 <div class="bg-scorecard relative overflow-x-auto shadow-md">
-  <table class="mt-2 w-full text-sm text-left text-mastersGreen rtl:text-right text-gray-500 border-green">
+  <table class="w-full text-sm text-left text-mastersGreen rtl:text-right text-gray-500 border-green">
     <thead class="text-xs uppercase bg-scorecard border-mastersGreen border">
       <tr class="font-extrabold tracking-tighter text-center">
         <th scope="col" class="px-6 py-3 border-r border-mastersGreen text-left">
@@ -28,6 +28,9 @@
         <th scope="col" class="px-6 py-3 border-r border-mastersGreen">
           DAY 4
         </th>
+        <th scope="col" class="px-6 py-3 border-r border-mastersGreen">
+          TOTALS
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -37,29 +40,35 @@
           phx-value-user-id={user.id}
           class="h-14 bg-scorecard border-mastersGreen border hover:bg-gray-100 cursor-pointer"
         >
-          <th scope="row" class="px-6 py-4 font-extrabold text-mastersGreen uppercase whitespace-nowrap border-r border-mastersGreen tracking-tighter">
+          <td scope="row" class="px-6 py-4 font-semibold text-mastersGreen uppercase whitespace-nowrap border-r border-mastersGreen tracking-tighter">
             <%= user.name %>
-          </th>
-          <%= for score <- Drafter.Golf.aggreagate_user_scores(user.id) do %>
+          </td>
+          <%= 
+          %{scores: scores, total: total} = Drafter.Golf.aggregate_user_scores(user.id)
+          for score <- scores do
+          %>
             <td class="px-6 py-4 border-r border-mastersGreen text-center">
-              <%= score %>
+              <%= if score == [], do: 0, else: score %>
             </td>
           <% end %>
+          <td class="px-6 py-4 border-r border-mastersGreen text-center">
+            <%= total %>
+          </td>
         </tr>
         <%= if @selected_user_id == to_string(user.id) do %>
           <%= if Enum.count(@players_for_user) > 0 do %>
             <%= for player <- @players_for_user do %>
-              <tr class="bg-gray-50 border-b pl-2">
-                <th scope="row" class="pl-10 py-4 font-medium text-gray-900 whitespace-nowrap">
+              <tr class="bg-white border-b pl-2">
+                <th scope="row" class="w-1 border border-mastersGreen pl-5 font-medium text-gray-900 whitespace-nowrap">
                   <%= player.name %>
                 </th>
                 <%= for {score, index} <- Enum.with_index(player.score) do %>
-                  <td class="px-6 py-4 border-black">
+                  <td class="px-6 py-4 border-black border border-mastersGreen text-center">
                     <.form for={%{}} phx-change="update_score">
                       <input type="hidden" name="player_id" value={player.id} />
                       <input type="hidden" name="score_index" value={index} />
                       <input 
-                        class="text-sm text-center bg-gray-50 w-14 h-10 border-t-0 border-x-0 border-b-1 focus:border-b-2 focus:border-black focus:ring-0 focus:ring-gray-50"
+                        class="text-sm text-center w-14 h-10 border-t-0 border-x-0 border-b-1 focus:border-b-2 focus:border-black focus:ring-0 focus:ring-gray-50"
                         phx-debounce="300"
                         name={"new_score"}
                         type="text"
@@ -68,6 +77,9 @@
                     </.form>
                   </td>
                 <% end %>
+                <td class="px-6 py-4 border-black border border-mastersGreen text-center">
+                  <%= Enum.sum(player.score) %>
+                </td>
               </tr>
             <% end %>
           <% else %>

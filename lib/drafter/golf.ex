@@ -52,10 +52,11 @@ defmodule Drafter.Golf do
   end
 
   @doc """
-  Take the players scores from each day and aggregate them together to get
-  each days totals.
+  Returns a map of the players scores and their total. The scores are
+  from each day and aggregated together into a list. The total is a sum
+  of all values in the list.
   """
-  def aggreagate_user_scores(user_id) do
+  def aggregate_user_scores(user_id) do
     query = from p in "players",
             where: p.user_id == ^user_id,
             select: p.score
@@ -64,12 +65,16 @@ defmodule Drafter.Golf do
     |> Enum.reject(fn score -> score == [] end)
     |> Enum.zip()
     |> Enum.map(fn scores -> Tuple.sum(scores) end)
+    total = Enum.sum(scores)
 
     # Add arrays in for nil scores. This is to make sure
     # that table cells are all present for the html
     case @total_scores - Enum.count(scores) do
-      0 -> scores
-      blanks -> scores ++ List.duplicate([], blanks)
+      0 -> 
+        %{scores: scores, total: total}
+      blanks -> 
+        scores = scores ++ List.duplicate([], blanks)
+        %{scores: scores, total: total}
     end
   end
 
