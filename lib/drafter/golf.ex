@@ -61,10 +61,14 @@ defmodule Drafter.Golf do
             where: p.user_id == ^user_id,
             select: p.scores
 
-    Repo.all(query)
-    |> Enum.reject(fn score -> score == [] end)
-    |> Enum.zip()
-    |> Enum.map(fn scores -> Tuple.sum(scores) end)
+    case Repo.all(query) do
+      [] -> 
+        [0,0,0,0]
+      result ->
+        result
+        |> Enum.zip()
+        |> Enum.map(fn scores -> Tuple.sum(scores) end)
+    end
   end
 
   @doc """
