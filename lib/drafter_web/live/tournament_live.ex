@@ -37,7 +37,6 @@ defmodule DrafterWeb.TournamentLive do
 
   @impl true
   def handle_event("start_draft", %{"player-id" => player_id}, socket) do
-    IO.inspect(player_id)
     {:noreply, assign(socket, selected_player_id: player_id, draftable_users: socket.assigns.users)}
   end
 
@@ -78,7 +77,7 @@ defmodule DrafterWeb.TournamentLive do
   ) do
     player = Golf.get_player!(player_id)
     updated_score = 
-      player.score
+      player.scores
       |> List.replace_at(String.to_integer(index), String.to_integer(score))
 
     Golf.Player.changeset(player, %{score: updated_score})

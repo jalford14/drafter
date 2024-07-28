@@ -4,7 +4,7 @@ defmodule Drafter.Golf.Player do
 
   schema "players" do
     field(:name, :string)
-    field(:score, {:array, :integer})
+    field(:scores, {:array, :integer}, default: [0, 0, 0, 0])
     field(:odds, :string)
     belongs_to(:tournament, Drafter.Golf.Tournament)
     belongs_to(:user, Drafter.Golf.User)
@@ -14,9 +14,8 @@ defmodule Drafter.Golf.Player do
 
   @doc false
   def changeset(player, attrs) do
-    IO.inspect(attrs, label: "attrsssssssss")
     player
-    |> cast(attrs, [:name, :score, :odds, :tournament_id, :user_id])
+    |> cast(attrs, [:name, :scores, :odds, :tournament_id, :user_id])
     |> validate_required([:name, :tournament_id])
   end
 end

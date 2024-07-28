@@ -73,10 +73,10 @@
                         name={"new_score"}
                         type="text"
                         value={
-                          if Enum.at(player.score, index) == nil do
+                          if Enum.at(player.scores, index) == nil do
                             0
                           else
-                            Enum.at(player.score, index)
+                            Enum.at(player.scores, index)
                           end
                         }
                       />
@@ -84,13 +84,13 @@
                   </td>
                 <% end %>
                 <td class="px-6 py-4 border-black border border-mastersGreen text-center">
-                  <%= Enum.sum(player.score) %>
+                  <%= Enum.sum(player.scores) %>
                 </td>
               </tr>
             <% end %>
           <% else %>
             <tr class="bg-gray-50 border-b pl-2">
-              <th scope="row" colspan="5" class="pl-10 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
+              <th scope="row" colspan="6" class="py-4 font-medium text-gray-900 whitespace-nowrap text-center">
                 No players drafted yet!
               </th>
             </tr>

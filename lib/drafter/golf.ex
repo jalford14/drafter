@@ -59,7 +59,7 @@ defmodule Drafter.Golf do
   def aggregate_user_scores(user_id) do
     query = from p in "players",
             where: p.user_id == ^user_id,
-            select: p.score
+            select: p.scores
 
     scores = Repo.all(query)
     |> Enum.reject(fn score -> score == [] end)
