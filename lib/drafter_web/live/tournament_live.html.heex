@@ -44,7 +44,7 @@
             <%= user.name %>
           </td>
           <%= 
-          %{scores: scores, total: total} = Drafter.Golf.aggregate_user_scores(user.id)
+          scores = Drafter.Golf.aggregate_user_scores(user.id)
           for score <- scores do
           %>
             <td class="px-6 py-4 border-r border-mastersGreen text-center">
@@ -52,7 +52,7 @@
             </td>
           <% end %>
           <td class="px-6 py-4 border-r border-mastersGreen text-center">
-            <%= total %>
+            <%= Enum.sum(scores) %>
           </td>
         </tr>
         <%= if @selected_user_id == to_string(user.id) do %>

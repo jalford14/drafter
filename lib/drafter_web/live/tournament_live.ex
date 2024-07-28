@@ -80,7 +80,7 @@ defmodule DrafterWeb.TournamentLive do
       player.scores
       |> List.replace_at(String.to_integer(index), String.to_integer(score))
 
-    Golf.Player.changeset(player, %{score: updated_score})
+    Golf.Player.changeset(player, %{scores: updated_score})
     |> Golf.update_player!()
 
     {:noreply, socket}

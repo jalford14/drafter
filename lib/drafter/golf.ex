@@ -61,21 +61,10 @@ defmodule Drafter.Golf do
             where: p.user_id == ^user_id,
             select: p.scores
 
-    scores = Repo.all(query)
+    Repo.all(query)
     |> Enum.reject(fn score -> score == [] end)
     |> Enum.zip()
     |> Enum.map(fn scores -> Tuple.sum(scores) end)
-    total = Enum.sum(scores)
-
-    # Add arrays in for nil scores. This is to make sure
-    # that table cells are all present for the html
-    case @total_scores - Enum.count(scores) do
-      0 -> 
-        %{scores: scores, total: total}
-      blanks -> 
-        scores = scores ++ List.duplicate([], blanks)
-        %{scores: scores, total: total}
-    end
   end
 
   @doc """
