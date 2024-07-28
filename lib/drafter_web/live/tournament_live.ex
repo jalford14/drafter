@@ -15,7 +15,6 @@ defmodule DrafterWeb.TournamentLive do
     player_form = %Player{}
             |> Ecto.Changeset.change()
             |> to_form()
-            |> IO.inspect(label: "FORM")
 
     {:ok, assign(
             socket,

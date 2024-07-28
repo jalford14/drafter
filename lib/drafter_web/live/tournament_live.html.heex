@@ -62,7 +62,7 @@
                 <th scope="row" class="w-1 border border-mastersGreen pl-5 font-medium text-gray-900 whitespace-nowrap">
                   <%= player.name %>
                 </th>
-                <%= for {score, index} <- Enum.with_index(player.score) do %>
+                <%= for index <- (0..3) do %>
                   <td class="px-6 py-4 border-black border border-mastersGreen text-center">
                     <.form for={%{}} phx-change="update_score">
                       <input type="hidden" name="player_id" value={player.id} />
@@ -72,7 +72,13 @@
                         phx-debounce="300"
                         name={"new_score"}
                         type="text"
-                        value={score}
+                        value={
+                          if Enum.at(player.score, index) == nil do
+                            0
+                          else
+                            Enum.at(player.score, index)
+                          end
+                        }
                       />
                     </.form>
                   </td>
