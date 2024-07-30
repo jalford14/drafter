@@ -10,8 +10,6 @@ defmodule Drafter.Golf do
   alias Drafter.Golf.User
   alias Drafter.Golf.Player
 
-  @total_scores 4
-
   @doc """
   Gets a single tournament and preloads users.
   """

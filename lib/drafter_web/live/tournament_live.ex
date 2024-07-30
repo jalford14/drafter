@@ -37,6 +37,12 @@ defmodule DrafterWeb.TournamentLive do
 
   @impl true
   def handle_event("start_draft", %{"player-id" => player_id}, socket) do
+    player_id =
+      case player_id == socket.assigns.selected_player_id do
+        true -> nil
+        false -> player_id
+      end
+
     {:noreply, assign(socket, selected_player_id: player_id, draftable_users: socket.assigns.users)}
   end
 

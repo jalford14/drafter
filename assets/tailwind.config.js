@@ -17,7 +17,11 @@ module.exports = {
         brand: "#FD4F00",
         mastersGreen: "#00714f",
         scorecard: "#f0e8dd",
-      }
+      },
+      borderRadius: {
+       'half-circle-horizontal': '50% 50% 0 0',
+       'full-circle': '100%', 
+      },
     },
   },
   plugins: [
