@@ -120,14 +120,14 @@
     </thead>
     <tbody class="bg-white">
       <%= for player <- @players do %>
-        <tr class="tracking-tighter group border-2 border-mastersGreen border-l-8 border-r-8">
+        <tr class="group border-2 border-mastersGreen border-l-8 border-r-8">
           <th scope="row" class="px-6 font-medium whitespace-nowrap border-2 border-mastersGreen uppercase">
-            <div class="p-2 m-1 border border-gray-400 shadow-inner">
+            <div class="font-display p-2 m-1 border border-gray-400 shadow-player-scorecard">
               <%= player.name %>
             </div>
           </th>
           <td class="px-6">
-            <div class="p-2 m-1 border border-gray-400 shadow-inner">
+            <div class="p-2 m-1 border border-gray-400 shadow-player-scorecard">
               <%= player.odds %>
             </div>
           </td>
