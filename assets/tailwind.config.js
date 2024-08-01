@@ -20,6 +20,7 @@ module.exports = {
         brand: "#FD4F00",
         mastersGreen: "#00714f",
         scorecard: "#f0e8dd",
+        scoreboard: "#f9f5f2",
       },
       borderRadius: {
        "half-circle-horizontal": "50% 50% 0 0",

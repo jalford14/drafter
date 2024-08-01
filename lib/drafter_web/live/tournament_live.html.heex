@@ -63,7 +63,7 @@
                   <%= player.name %>
                 </th>
                 <%= for index <- (0..3) do %>
-                  <td class="px-6 py-4 border-mastersGreen border border-mastersGreen text-center">
+                  <td class="px-6 py-4 border border-mastersGreen text-center">
                     <.form for={%{}} phx-change="update_score">
                       <input type="hidden" name="player_id" value={player.id} />
                       <input type="hidden" name="score_index" value={index} />
@@ -103,12 +103,12 @@
 
 <div class="py-12" />
 
-<h2 class="h-24 leading-10 text-mastersGreen text-center text-xl font-semibold bg-white border-2 border-mastersGreen border-b-0 rounded-full-circle transform translate-y-12">PLAYERS</h2>
-<div class="text-mastersGreen relative overflow-x-auto shadow-md">
-  <table class="w-full text-sm text-left rtl:text-right border-r-3 border-l-3">
-    <thead class="text-xs uppercase border-2 border-mastersGreen bg-white border-l-8 border-r-8">
+<h2 class="leading-10 text-mastersGreen text-center font-semibold border border-mastersGreen border-b-0">PLAYERS</h2>
+<div class="bg-scorecard relative overflow-x-auto shadow-md tracking-tighter">
+  <table class="w-full text-sm text-left text-mastersGreen rtl:text-right text-gray-500 border-green">
+    <thead class="uppercase border border-mastersGreen">
       <tr>
-        <th scope="col" class="px-6 py-3 border-2 border-mastersGreen">
+        <th scope="col" class="px-6 py-3 border-r border-mastersGreen">
           NAME
         </th>
         <th scope="col" class="px-6 py-3">
@@ -118,28 +118,28 @@
         </th>
       </tr>
     </thead>
-    <tbody class="bg-white">
+    <tbody>
       <%= for player <- @players do %>
-        <tr class="group border-2 border-mastersGreen border-l-8 border-r-8">
-          <th scope="row" class="px-6 font-medium whitespace-nowrap border-2 border-mastersGreen uppercase">
-            <div class="font-display p-2 m-1 border border-gray-400 shadow-player-scorecard">
+        <tr class="group border border-mastersGreen tracking-wide">
+          <th scope="row" class="px-6 font-medium whitespace-nowrap border border-mastersGreen uppercase">
+            <div class="p-2 m-1 border border-mastersGreen shadow-player-scorecard">
               <%= player.name %>
             </div>
           </th>
           <td class="px-6">
-            <div class="p-2 m-1 border border-gray-400 shadow-player-scorecard">
+            <div class="p-2 m-1 border border-mastersGreen shadow-player-scorecard">
               <%= player.odds %>
             </div>
           </td>
           <td class="px-6 opacity-0 group-hover:opacity-100 text-center">
-            <button phx-click="start_draft" phx-value-player-id={player.id} class="mt-1 relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 group bg-mastersGreen hover:from-white hover:to-mastersGreen hover:text-white focus:ring-4 focus:outline-none focus:ring-white">
-              <span class="px-5 relative transition-all ease-in duration-75 bg-white hover:bg-opacity-0">
-                Draft
+            <button phx-click="start_draft" phx-value-player-id={player.id} class="mt-1 relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-mastersGreen group bg-mastersGreen hover:from-white hover:to-mastersGreen hover:text-white focus:ring-4 focus:outline-none focus:ring-scorecard">
+              <span class="tracking-tighter text-sm px-5 relative transition-all ease-in duration-75 bg-scorecard hover:bg-opacity-0">
+                DRAFT
               </span>
             </button>
           </td>
           <%= if @selected_player_id == to_string(player.id) do %>
-            <tr class="group-hover:opacity-100 bg-gray-50 border-b">
+            <tr class="group-hover:opacity-100 bg-scorecard border border-mastersGreen">
               <td colspan="3">
                 <div id={"users-for-player-#{player.id}"} class="grid grid-cols-3 gap-6 p-3">
                   <%= for user <- @draftable_users do %>
@@ -147,7 +147,7 @@
                       phx-click="draft_player"
                       phx-value-user-id={user.id}
                       type="button"
-                      class="text-white bg-mastersGreen hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium text-sm px-5 py-2.5 text-center me-2 mb-2"
+                      class="uppercase text-mastersGreen border border-mastersGreen bg-scorecard transition-all ease-in duration-75 hover:bg-mastersGreen hover:text-white focus:outline-none focus:ring-4 focus:ring-green-300 font-medium text-sm px-5 py-2.5 text-center me-2 mb-2"
                     >
                       <%= user.name %>
                     </button>
