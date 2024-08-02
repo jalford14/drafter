@@ -12,22 +12,11 @@ module.exports = {
     "../lib/drafter_web/**/*.*ex"
   ],
   theme: {
-    fontFamily: {
-        'display': ['Oswald']
-    },
     extend: {
       colors: {
         brand: "#FD4F00",
         mastersGreen: "#00714f",
         scorecard: "#f0e8dd",
-        scoreboard: "#f9f5f2",
-      },
-      borderRadius: {
-       "half-circle-horizontal": "50% 50% 0 0",
-       "full-circle": "100%", 
-      },
-      boxShadow: {
-          "player-scorecard": "inset 0 0 6px #c2c0bd"
       },
     },
   },
