@@ -101,9 +101,7 @@
   </table>
 </div>
 
-<div class="py-12" />
-
-<h2 class="leading-10 text-mastersGreen text-center font-semibold border border-mastersGreen border-b-0">PLAYERS</h2>
+<h2 class="m-auto mt-16 mb-10 w-2/3 leading-10 text-mastersGreen text-center font-semibold border-b border-mastersGreen">PLAYERS</h2>
 <div class="bg-scorecard relative overflow-x-auto shadow-md tracking-tighter">
   <table class="w-full text-sm text-left text-mastersGreen rtl:text-right text-gray-500 border-green">
     <thead class="uppercase border border-mastersGreen">
@@ -120,14 +118,14 @@
     </thead>
     <tbody>
       <%= for player <- @players do %>
-        <tr class="group border border-mastersGreen tracking-wide">
+        <tr class="group border border-mastersGreen tracking-tighter">
           <th scope="row" class="px-6 font-medium whitespace-nowrap border border-mastersGreen uppercase">
-            <div class="p-2 m-1 border border-mastersGreen shadow-player-scorecard">
+            <div class="p-2 m-1 border border-mastersGreen shadow-inner">
               <%= player.name %>
             </div>
           </th>
           <td class="px-6">
-            <div class="p-2 m-1 border border-mastersGreen shadow-player-scorecard">
+            <div class="p-2 m-1 border border-mastersGreen shadow-inner">
               <%= player.odds %>
             </div>
           </td>
@@ -147,7 +145,7 @@
                       phx-click="draft_player"
                       phx-value-user-id={user.id}
                       type="button"
-                      class="uppercase text-mastersGreen border border-mastersGreen bg-scorecard transition-all ease-in duration-75 hover:bg-mastersGreen hover:text-white focus:outline-none focus:ring-4 focus:ring-green-300 font-medium text-sm px-5 py-2.5 text-center me-2 mb-2"
+                      class="uppercase shadow text-mastersGreen border border-mastersGreen bg-scorecard transition-all ease-in duration-75 hover:bg-mastersGreen hover:text-white focus:outline-none focus:ring-4 focus:ring-green-300 font-medium text-sm px-5 py-2.5 text-center me-2 mb-2"
                     >
                       <%= user.name %>
                     </button>
