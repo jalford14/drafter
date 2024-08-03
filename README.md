@@ -1,5 +1,7 @@
 # Drafter
 
+##### Fantasy golf drafter
+
 ![](./demo.gif)
 
 To start your Phoenix server:
