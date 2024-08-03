@@ -6,7 +6,9 @@ defmodule DrafterWeb.TournamentLive do
 
   @impl true
   def mount(params, _session, socket) do
-    DrafterWeb.Endpoint.subscribe("updates:topic")
+    IO.puts("HEY")
+    IO.inspect("updates:topic:#{params["id"]}")
+    DrafterWeb.Endpoint.subscribe("updates:topic:#{params["id"]}")
 
     tournament = Golf.get_tournament!(params["id"])
     undrafted_players = Golf.get_undrafted_players(tournament.id)
@@ -29,57 +31,51 @@ defmodule DrafterWeb.TournamentLive do
             selected_player_id: nil,
             players_for_user: nil,
             data: 0
-          )}
-  end
+        )}
+end
 
-  @impl true
-  def handle_event("new_update", _params, socket) do
-    DrafterWeb.Endpoint.broadcast("updates:topic", "new_update", nil)
-    {:noreply, socket}
-  end
+@impl true
+def handle_event("create_user", params, socket) do
+  {:ok, user} = Golf.create_user(params["user"])
+  {:noreply, assign(socket, users: socket.assigns.users ++ [user])}
+end
 
-  @impl true
-  def handle_info(%{event: "new_update"}, socket) do
-    {:noreply, update(socket, :data, fn data -> data + 1 end)}
-  end
+@impl true
+def handle_event("start_draft", %{"player-id" => player_id}, socket) do
+  player_id =
+    case player_id == socket.assigns.selected_player_id do
+      true -> nil
+      false -> player_id
+    end
 
-  @impl true
-  def handle_event("create_user", params, socket) do
-    {:ok, user} = Golf.create_user(params["user"])
-    {:noreply, assign(socket, users: socket.assigns.users ++ [user])}
-  end
+  {:noreply, assign(socket, selected_player_id: player_id, draftable_users: socket.assigns.users)}
+end
 
-  @impl true
-  def handle_event("start_draft", %{"player-id" => player_id}, socket) do
-    player_id =
-      case player_id == socket.assigns.selected_player_id do
-        true -> nil
-        false -> player_id
-      end
+@impl true
+def handle_event("draft_player", %{"user-id" => user_id}, socket) do
+  player = socket.assigns.selected_player_id
+  |> Golf.get_player!()
 
-    {:noreply, assign(socket, selected_player_id: player_id, draftable_users: socket.assigns.users)}
-  end
+  Golf.Player.changeset(player, %{user_id: user_id})
+  |> Golf.update_player!()
 
-  @impl true
-  def handle_event("draft_player", %{"user-id" => user_id}, socket) do
-    player = socket.assigns.selected_player_id
-    |> Golf.get_player!()
+  leftover_players = socket.assigns.players -- [player]
+  DrafterWeb.Endpoint.broadcast(
+    "updates:topic:#{socket.assigns.tournament.id}",
+    "player_drafted",
+    leftover_players
+  )
 
-    Golf.Player.changeset(player, %{user_id: user_id})
-    |> Golf.update_player!()
+  {:noreply, assign(socket, selected_player_id: nil, draftable_users: nil)}
+end
 
-    leftover_players = socket.assigns.players -- [player]
-
-    {:noreply, assign(socket, players: leftover_players, selected_player_id: nil, draftable_users: nil)}
-  end
-
-  @impl true
-  def handle_event("toggle_user_players", %{"user-id" => user_id}, socket) do
-    user = Golf.get_user!(user_id)
-    user_id =
-      case user_id == socket.assigns.selected_user_id do
-        true -> nil
-        false -> user_id
+@impl true
+def handle_event("toggle_user_players", %{"user-id" => user_id}, socket) do
+  user = Golf.get_user!(user_id)
+  user_id =
+    case user_id == socket.assigns.selected_user_id do
+      true -> nil
+      false -> user_id
       end
 
     {:noreply, assign(socket, selected_user_id: user_id, players_for_user: user.players)}
@@ -104,5 +100,10 @@ defmodule DrafterWeb.TournamentLive do
     |> Golf.update_player!()
 
     {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info(%{event: "player_drafted", payload: available_players}, socket) do
+    {:noreply, update(socket, :players, fn _players -> available_players end)}
   end
 end
