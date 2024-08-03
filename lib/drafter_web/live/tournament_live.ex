@@ -6,6 +6,8 @@ defmodule DrafterWeb.TournamentLive do
 
   @impl true
   def mount(params, _session, socket) do
+    DrafterWeb.Endpoint.subscribe("updates:topic")
+
     tournament = Golf.get_tournament!(params["id"])
     undrafted_players = Golf.get_undrafted_players(tournament.id)
     form = %User{}
@@ -25,8 +27,20 @@ defmodule DrafterWeb.TournamentLive do
             player_form: player_form,
             selected_user_id: nil,
             selected_player_id: nil,
-            players_for_user: nil
+            players_for_user: nil,
+            data: 0
           )}
+  end
+
+  @impl true
+  def handle_event("new_update", _params, socket) do
+    DrafterWeb.Endpoint.broadcast("updates:topic", "new_update", nil)
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info(%{event: "new_update"}, socket) do
+    {:noreply, update(socket, :data, fn data -> data + 1 end)}
   end
 
   @impl true
