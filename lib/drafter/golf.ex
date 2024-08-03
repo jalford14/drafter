@@ -50,6 +50,18 @@ defmodule Drafter.Golf do
   end
 
   @doc """
+  Deletes a user and frees all their drafted players.
+  """
+  def delete_user(user_id) do
+    user = get_user!(user_id)
+
+    from(p in Player, where: p.user_id == ^user.id)
+    |> Repo.update_all(set: [user_id: nil])
+
+    Repo.delete!(user)
+  end
+
+  @doc """
   Returns a map of the players scores and their total. The scores are
   from each day and aggregated together into a list. The total is a sum
   of all values in the list.
@@ -96,7 +108,8 @@ defmodule Drafter.Golf do
   def get_undrafted_players(tournament_id) do
     query = from p in Player,
             where: is_nil(p.user_id)
-                   and p.tournament_id == ^tournament_id
+                   and p.tournament_id == ^tournament_id,
+            order_by: fragment("CAST(REGEXP_REPLACE(?, '^\\+', '') AS INTEGER)", p.odds)
 
     Repo.all(query)
   end

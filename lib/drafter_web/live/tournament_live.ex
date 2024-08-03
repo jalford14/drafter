@@ -6,8 +6,6 @@ defmodule DrafterWeb.TournamentLive do
 
   @impl true
   def mount(params, _session, socket) do
-    IO.puts("HEY")
-    IO.inspect("updates:topic:#{params["id"]}")
     DrafterWeb.Endpoint.subscribe("updates:topic:#{params["id"]}")
 
     tournament = Golf.get_tournament!(params["id"])
@@ -82,6 +80,13 @@ def handle_event("toggle_user_players", %{"user-id" => user_id}, socket) do
   end
 
   @impl true
+  def handle_event("delete_user", %{"user-id" => user_id}, socket) do
+    Golf.delete_user(user_id)
+    socket = put_flash(socket, :info, "Deleted user!")
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_event("update_score", %{"new_score" => ""}, socket), do:
     {:noreply, socket}
 
@@ -104,6 +109,6 @@ def handle_event("toggle_user_players", %{"user-id" => user_id}, socket) do
 
   @impl true
   def handle_info(%{event: "player_drafted", payload: available_players}, socket) do
-    {:noreply, update(socket, :players, fn _players -> available_players end)}
+    {:noreply, assign(socket, %{players: available_players})}
   end
 end
