@@ -52,9 +52,7 @@ defmodule Drafter.Golf do
   @doc """
   Deletes a user and frees all their drafted players.
   """
-  def delete_user(user_id) do
-    user = get_user!(user_id)
-
+  def delete_user!(user) do
     from(p in Player, where: p.user_id == ^user.id)
     |> Repo.update_all(set: [user_id: nil])
 

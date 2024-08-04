@@ -27,8 +27,7 @@ defmodule DrafterWeb.TournamentLive do
             player_form: player_form,
             selected_user_id: nil,
             selected_player_id: nil,
-            players_for_user: nil,
-            data: 0
+            players_for_user: nil
         )}
 end
 
@@ -81,8 +80,23 @@ def handle_event("toggle_user_players", %{"user-id" => user_id}, socket) do
 
   @impl true
   def handle_event("delete_user", %{"user-id" => user_id}, socket) do
-    Golf.delete_user(user_id)
+    user = Golf.get_user!(user_id)
+
+    leftover_users =
+      socket.assigns.users
+      |> Enum.reject(fn curr_user -> curr_user.id == user.id end)
+
+    Golf.delete_user!(user)
     socket = put_flash(socket, :info, "Deleted user!")
+
+    DrafterWeb.Endpoint.broadcast(
+      "updates:topic:#{socket.assigns.tournament.id}",
+      "user_deleted",
+      %{
+        players: Golf.get_undrafted_players(socket.assigns.tournament.id),
+        users: leftover_users
+      }
+    )
     {:noreply, socket}
   end
 
@@ -110,5 +124,10 @@ def handle_event("toggle_user_players", %{"user-id" => user_id}, socket) do
   @impl true
   def handle_info(%{event: "player_drafted", payload: available_players}, socket) do
     {:noreply, assign(socket, %{players: available_players})}
+  end
+
+  @impl true
+  def handle_info(%{event: "user_deleted", payload: payload}, socket) do
+    {:noreply, assign(socket, players: payload[:players], users: payload[:users])}
   end
 end
