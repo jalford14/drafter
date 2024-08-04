@@ -34,7 +34,13 @@ end
 @impl true
 def handle_event("create_user", params, socket) do
   {:ok, user} = Golf.create_user(params["user"])
-  {:noreply, assign(socket, users: socket.assigns.users ++ [user])}
+  DrafterWeb.Endpoint.broadcast(
+    "updates:topic:#{socket.assigns.tournament.id}",
+    "user_created",
+    socket.assigns.users ++ [user]
+  )
+
+  {:noreply, socket}
 end
 
 @impl true
@@ -124,6 +130,11 @@ def handle_event("toggle_user_players", %{"user-id" => user_id}, socket) do
   @impl true
   def handle_info(%{event: "player_drafted", payload: available_players}, socket) do
     {:noreply, assign(socket, %{players: available_players})}
+  end
+
+  @impl true
+  def handle_info(%{event: "user_created", payload: users}, socket) do
+    {:noreply, assign(socket, users: users)}
   end
 
   @impl true
