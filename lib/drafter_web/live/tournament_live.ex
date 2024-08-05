@@ -20,6 +20,7 @@ defmodule DrafterWeb.TournamentLive do
 
     {:ok, assign(
             socket,
+            placeholder_value: "",
             tournament: tournament,
             users: tournament.users,
             players: undrafted_players,
@@ -40,7 +41,7 @@ def handle_event("create_user", params, socket) do
     socket.assigns.users ++ [user]
   )
 
-  {:noreply, socket}
+  {:noreply, assign(socket, placeholder_value: "")}
 end
 
 @impl true
