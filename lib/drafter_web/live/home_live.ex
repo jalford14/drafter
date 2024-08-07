@@ -5,7 +5,8 @@ defmodule DrafterWeb.HomeLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    tournaments = Golf.get_tournaments!
+    {:ok, assign(socket, tournaments: tournaments)}
   end
 
   @impl true

@@ -19,6 +19,13 @@ defmodule Drafter.Golf do
   end
 
   @doc """
+  Gets all tournaments.
+  """
+  def get_tournaments!() do
+    Repo.all(Tournament)
+  end
+
+  @doc """
   Gets a tournament by passing in a name.
   """
   def get_tournament_by_name(name), do: Repo.get_by(Tournament, name: name)

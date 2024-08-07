@@ -1,5 +1,9 @@
 <br />
 
+<%= for t <- @tournaments do %>
+  <%= t.name %>
+<% end %>
+
 <button 
   phx-click="new_draft"
   class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
