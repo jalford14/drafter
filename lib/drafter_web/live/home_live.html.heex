@@ -1,12 +1,18 @@
 <br />
 
-<%= for t <- @tournaments do %>
-  <%= t.name %>
-<% end %>
+<div class="grid grid-cols-3 gap-6 p-3">
+  <%= for t <- @tournaments do %>
+    <a href={"tournaments/#{t.id}"} class="hover:text-zinc-700">
+      <div class="border border-mastersGreen text-gray-900 font-extrabold font-sans tracking-tighter">
+        <%= t.name %>
+      </div>
+    </a>
+  <% end %>
+</div>
 
 <button 
   phx-click="new_draft"
-  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+  class="bg-mastersGreen hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
   >
   New Draft
 </button>
