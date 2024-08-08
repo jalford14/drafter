@@ -3,7 +3,7 @@
 <div class="grid grid-cols-3 gap-6 p-3">
   <%= for t <- @tournaments do %>
     <a href={"tournaments/#{t.id}"} class="hover:text-zinc-700">
-      <div class="border border-mastersGreen text-gray-900 font-extrabold font-sans tracking-tighter">
+      <div class="p-5 border border-mastersGreen rounded bg-mastersGreen text-gray-900 font-extrabold font-sans tracking-tighter">
         <%= t.name %>
       </div>
     </a>
