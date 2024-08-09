@@ -2,11 +2,15 @@ defmodule DrafterWeb.HomeLive do
   use DrafterWeb, :live_view
 
   alias Drafter.Golf
+  alias Drafter.Golf.Tournament
 
   @impl true
   def mount(_params, _session, socket) do
     tournaments = Golf.get_tournaments!
-    {:ok, assign(socket, tournaments: tournaments)}
+    form = %Tournament{}
+            |> Ecto.Changeset.change()
+            |> to_form()
+    {:ok, assign(socket, tournaments: tournaments, form: form)}
   end
 
   @impl true

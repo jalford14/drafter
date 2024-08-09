@@ -10,6 +10,10 @@
   <% end %>
 </div>
 
+<.form for={@form} phx-submit="create_user" class="whitespace-nowrap flex items-end h-16" >
+  <.input field={@form[:name]} label="Tournament name"/>
+</.form>
+
 <button 
   phx-click="new_draft"
   class="bg-mastersGreen hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
