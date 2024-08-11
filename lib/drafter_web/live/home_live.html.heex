@@ -1,15 +1,15 @@
 <br />
 
-<div class="grid grid-cols-3 gap-6 p-3">
+<.form for={@form} phx-submit="create_tournament" class="whitespace-nowrap flex items-end h-16 mb-2" >
+  <.input field={@form[:name]} placeholder="Name" label="Create tournament"/>
+</.form>
+
+<div class="inline-grid grid-cols-3 auto-rows-auto gap-6">
   <%= for t <- @tournaments do %>
     <a href={"tournaments/#{t.id}"} class="hover:text-zinc-700">
-      <div class="p-5 border border-mastersGreen rounded bg-mastersGreen text-gray-900 font-extrabold font-sans tracking-tighter">
+      <div class="p-5 border border-mastersGreen rounded bg-mastersGreen text-gray-900 font-extrabold font-sans tracking-tighter text-ellipsis whitespace-nowrap overflow-hidden">
         <%= t.name %>
       </div>
     </a>
   <% end %>
 </div>
-
-<.form for={@form} phx-submit="create_tournament" class="whitespace-nowrap flex items-end h-16" >
-  <.input field={@form[:name]} placeholder="Name" label="Create tournament"/>
-</.form>
