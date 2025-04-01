@@ -4,6 +4,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content={get_csrf_token()} />
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://drafter.golf">
+    <meta property="og:title" content="Drafter">
+    <meta property="og:description" content="Play fantasy golf with friends">
+    <meta property="og:image" content="https://i.imgur.com/Lpb5dqw.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://drafter.golf">
+    <meta name="twitter:title" content="Drafter">
+    <meta name="twitter:description" content="Play fantasy golf with friends">
+    <meta name="twitter:image" content="https://i.imgur.com/Lpb5dqw.png">
     <.live_title suffix=" · Phoenix Framework">
       <%= assigns[:page_title] || "Drafter" %>
     </.live_title>
