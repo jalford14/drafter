@@ -145,20 +145,15 @@
         <tr class="group border border-mastersGreen tracking-tighter">
           <th scope="row" class="px-6 font-medium whitespace-nowrap border border-mastersGreen uppercase">
             <div class="p-2 m-1 border border-mastersGreen shadow-inner">
-              <%= player.name %>
+              <button phx-click="start_draft" phx-value-player-id={player.id} class="">
+                <%= player.name %>
+              </button>
             </div>
           </th>
           <td class="px-6">
             <div class="p-2 m-1 border border-mastersGreen shadow-inner">
               <%= player.odds %>
             </div>
-          </td>
-          <td class="px-6 opacity-0 group-hover:opacity-100 text-center">
-            <button phx-click="start_draft" phx-value-player-id={player.id} class="mt-1 relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-mastersGreen group bg-mastersGreen hover:from-white hover:to-mastersGreen hover:text-white focus:ring-4 focus:outline-none focus:ring-scorecard">
-              <span class="tracking-tighter text-sm px-5 relative transition-all ease-in duration-75 bg-scorecard hover:bg-opacity-0">
-                DRAFT
-              </span>
-            </button>
           </td>
           <%= if @selected_player_id == to_string(player.id) do %>
             <tr class="group-hover:opacity-100 bg-scorecard border border-mastersGreen">
