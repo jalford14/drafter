@@ -108,6 +108,18 @@ def handle_event("toggle_user_players", %{"user-id" => user_id}, socket) do
   end
 
   @impl true
+  def handle_event("delete_player", %{"player-id" => player_id}, socket) do
+    player = Golf.get_player!(player_id)
+    user_players = socket.assigns.players_for_user -- [player]
+
+    Golf.Player.changeset(player, %{user_id: nil})
+    |> Golf.update_player!()
+    socket = put_flash(socket, :info, "Deleted player")
+
+    {:noreply, assign(socket, %{players_for_user: user_players})}
+  end
+
+  @impl true
   def handle_event("update_score", %{"new_score" => ""}, socket), do:
     {:noreply, socket}
 
