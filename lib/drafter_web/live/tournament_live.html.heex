@@ -37,7 +37,9 @@
     </thead>
     <tbody>
     <%= if Enum.count(@users) > 0 do %>
-      <%= for user <- @users do %>
+      <%= for user <- Enum.sort_by(@users, fn user -> 
+        -Enum.sum(Drafter.Golf.aggregate_user_scores(user.id))
+      end) do %>
         <tr
           phx-click="toggle_user_players"
           phx-value-user-id={user.id}
@@ -145,7 +147,7 @@
         <tr class="group border border-mastersGreen tracking-tighter">
           <th scope="row" class="px-6 font-medium whitespace-nowrap border border-mastersGreen uppercase">
             <div class="p-2 m-1 border border-mastersGreen shadow-inner">
-              <button phx-click="start_draft" phx-value-player-id={player.id} class="">
+              <button phx-click="start_draft" phx-value-player-id={player.id} class="w-full h-full text-left">
                 <%= player.name %>
               </button>
             </div>
